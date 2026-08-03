@@ -1,5 +1,8 @@
 # AI Requirements Workflow for n8n
 
+[![Workflow Audit](https://github.com/Mikhail-Shishenkov/n8n-ai-requirements-workflow/actions/workflows/audit.yml/badge.svg)](https://github.com/Mikhail-Shishenkov/n8n-ai-requirements-workflow/actions/workflows/audit.yml)
+
+
 **Human-in-the-loop automation for safe AI-assisted requirements processing,
 validation, audit logging and version lineage.**
 
