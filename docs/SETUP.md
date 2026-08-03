@@ -8,8 +8,6 @@
 workflows/ai-requirements-workflow.template.json
 ```
 
-Workflow должен оставаться выключенным до smoke test.
-
 ## GigaChat
 
 Настройте:
