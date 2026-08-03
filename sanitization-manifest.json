@@ -10,5 +10,8 @@
   "webhook_ids_removed": 2,
   "tls_verification_overrides_removed": 4,
   "forbidden_checks_passed": true,
-  "live_n8n_import_test_performed": false
+  "live_n8n_import_test_performed": true,
+  "live_n8n_import_test_result": "passed",
+  "live_n8n_import_test_environment": "local n8n",
+  "live_n8n_import_test_notes": "Public template imported successfully. The workflow rendered on the canvas and remained unpublished. External credentials and resource IDs were intentionally unassigned."
 }
