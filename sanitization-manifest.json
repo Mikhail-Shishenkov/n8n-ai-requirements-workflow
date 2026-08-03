@@ -1,0 +1,14 @@
+{
+  "node_count": 93,
+  "connection_count": 101,
+  "node_names_unique": true,
+  "dangling_connections": 0,
+  "active": false,
+  "pin_data_count": 0,
+  "basic_authorization_values_replaced": 2,
+  "credential_references_removed": 15,
+  "webhook_ids_removed": 2,
+  "tls_verification_overrides_removed": 4,
+  "forbidden_checks_passed": true,
+  "live_n8n_import_test_performed": false
+}

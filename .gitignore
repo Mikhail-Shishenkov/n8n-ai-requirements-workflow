@@ -1,0 +1,17 @@
+.env
+.env.*
+!.env.example
+
+private/
+raw-exports/
+execution-data/
+.n8n/
+*.sqlite
+*.sqlite3
+
+.DS_Store
+Thumbs.db
+__pycache__/
+.pytest_cache/
+
+security-audit-private.*
