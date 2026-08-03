@@ -119,4 +119,3 @@ HTTP Request · Human-in-the-loop · Quality Gates · Audit Logging
 - [Архитектура](docs/ARCHITECTURE.md)
 - [Настройка](docs/SETUP.md)
 - [Безопасность](docs/SECURITY.md)
-- [План скриншотов](screenshots/README.md)
