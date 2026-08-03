@@ -81,9 +81,6 @@ AI Draft не считается финальным результатом бе�
 
 - 93 узла;
 - 101 связь;
-- 47 Code nodes;
-- 11 Google Sheets nodes;
-- 8 HTTP Request nodes;
 - 5 вариантов Human Review.
 
 ## Проверки и безопасность
