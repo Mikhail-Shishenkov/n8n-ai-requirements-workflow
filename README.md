@@ -2,15 +2,21 @@
 
 [![Workflow Audit](https://github.com/Mikhail-Shishenkov/n8n-ai-requirements-workflow/actions/workflows/audit.yml/badge.svg)](https://github.com/Mikhail-Shishenkov/n8n-ai-requirements-workflow/actions/workflows/audit.yml)
 
+## О проекте
 
-**Human-in-the-loop automation for safe AI-assisted requirements processing,
-validation, audit logging and version lineage.**
+Это портфолио-проект по системному анализу и автоматизации обработки требований.
 
-Workflow принимает текст или Google Doc, оценивает качество входа, выбирает
-безопасный prompt route, вызывает GigaChat, валидирует AI Draft, сохраняет
-полный артефакт и требует Human Review перед дальнейшим движением.
+Workflow принимает текст требования или ссылку на Google Doc. Затем система проверяет входные данные, выбирает подходящий сценарий обработки, формирует запрос к GigaChat и проверяет полученный AI Draft.
 
-## Архитектура
+Результат не передаётся дальше автоматически. Перед следующим шагом требуется ревью пользователя (Human Review). Пользователь может продолжить процесс, вернуть входные данные на исправление, запустить повторную обработку или остановить сценарий.
+
+Проект показывает, как можно встроить LLM в управляемый процесс, где решения системы проверяются, журналируются и остаются под контролем человека.
+
+## Общий вид workflow
+
+![Общий вид AI Requirements Workflow](screenshots/workflow-overview.png)
+
+## Схема процесса
 
 ```mermaid
 flowchart LR
@@ -35,84 +41,79 @@ flowchart LR
     O -->|STOP| S[Safe stop]
 ```
 
-## Возможности
+## Что умеет система
 
-- text и Google Doc intake;
-- Input Precheck с `safe_routes` и `blocked_routes`;
-- LLM Prompt Router и отдельный Output Validator;
-- Prompt Registry для P001–P011;
-- Prompt Extractor, Builder и Build Validator;
-- GigaChat router и work calls;
-- AI Result Gate;
-- Google Doc для полного AI Draft;
-- S2 Output, Automation Log и Input Registry;
-- пять Human Review решений;
-- parent-child version lineage;
-- отдельный rerun flow;
-- fail-closed остановки.
+- Принимать требования в виде текста или ссылки на Google Doc.
+- Проверять входные данные через Input Precheck.
+- Формировать `safe_routes` и `blocked_routes`.
+- Выбирать сценарий через Prompt Router и Prompt Registry для P001–P011.
+- Формировать и проверять prompt перед вызовом GigaChat.
+- Сохранять AI Draft, краткий результат и технический журнал.
+- Поддерживать Human Review, повторный запуск и связь между версиями результата.
+
+## Human Review
+
+После обработки пользователь выбирает дальнейшее действие.
+
+| Решение | Что происходит |
+|---|---|
+| `CONTINUE` | Процесс продолжается |
+| `CONTINUE_WITH_NOTES` | Процесс продолжается с комментарием пользователя |
+| `INPUT_FIX` | Входные данные возвращаются на исправление |
+| `RERUN_AI` | Создаётся новая версия результата |
+| `STOP` | Процесс останавливается |
+
+AI Draft не считается финальным результатом без решения пользователя.
 
 ## Масштаб
 
-- 93 nodes;
-- 101 connections;
+- 93 узла;
+- 101 связь;
 - 47 Code nodes;
 - 11 Google Sheets nodes;
 - 8 HTTP Request nodes;
-- 5 Human Review outcomes.
+- 5 вариантов Human Review.
 
-## Public template security
+## Проверки и безопасность
 
-Публичный JSON:
+В репозитории опубликован очищенный шаблон:
 
-- выключен;
+`workflows/ai-requirements-workflow.template.json`
+
+Публичная версия:
+
+- выключена;
 - не содержит pinned data;
 - не содержит credentials и access tokens;
-- не содержит реальных Google IDs;
-- не содержит webhook IDs и instance metadata;
-- не отключает TLS certificate verification.
 
-Проверка:
+Шаблон проверяется локальным скриптом:
 
 ```bash
 python scripts/audit_workflow.py workflows/ai-requirements-workflow.template.json
 ```
 
-## Быстрый старт
 
-1. Импортировать JSON в n8n.
-2. Создать Google OAuth credentials.
-3. Создать вкладки из `templates/google-sheets/`.
-4. Заменить все `YOUR_*` placeholders.
-5. Настроить GigaChat через переменные окружения.
-6. Выполнить smoke test при выключенном workflow.
-7. После проверки включить triggers.
+## Моя роль
 
-Подробности: [docs/SETUP.md](docs/SETUP.md).
+В рамках проекта я:
 
-## Human Review
+- спроектировал последовательность обработки требования;
+- определил входные данные, AI Draft и решения Human Review;
+- настроил маршрутизацию и проверки между этапами;
+- разделил полный результат, краткую карточку и технический журнал;
+- спроектировал связь между исходной и повторными версиями результата;
+- проверил основной, негативные и граничные сценарии;
+- подготовил публичный шаблон без credentials и внутренних идентификаторов.
 
-| Решение | Поведение |
-|---|---|
-| `CONTINUE` | Продолжить маршрут |
-| `CONTINUE_WITH_NOTES` | Продолжить с ограничениями |
-| `INPUT_FIX` | Вернуть вход на исправление |
-| `RERUN_AI` | Создать новую AI-версию |
-| `STOP` | Безопасно остановить процесс |
+## Запуск
 
-## Мой вклад
+Для работы необходимо импортировать JSON в n8n, назначить собственные Google OAuth credentials, создать таблицы из шаблонов в `templates/google-sheets/` и настроить переменные окружения для GigaChat.
 
-- спроектировал end-to-end AI workflow;
-- определил контракты входа, AI Draft и Human Review;
-- реализовал safe routing и quality gates;
-- разделил полный артефакт, бизнес-карточку и технический лог;
-- спроектировал version lineage и rerun flow;
-- проверил happy path, negative и edge-case сценарии;
-- подготовил безопасный публичный template.
+Подробная инструкция: [docs/SETUP.md](docs/SETUP.md).
 
 ## Технологии
 
-n8n · GigaChat API · Google Drive · Google Docs · Google Sheets · JavaScript ·
-HTTP Request · Human-in-the-loop · Quality Gates · Audit Logging
+n8n · GigaChat API · Google Drive · Google Docs · Google Sheets · JavaScript · HTTP Request · Human-in-the-loop · Quality Gates · Audit Logging
 
 ## Документация
 
