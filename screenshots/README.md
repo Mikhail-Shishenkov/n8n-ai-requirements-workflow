@@ -1,4 +1,4 @@
-# Screenshot plan
+# Screenshot
 
 1. `workflow-overview.png` — весь workflow.
 2. `input-routing.png` — Intake → Precheck → Router.
