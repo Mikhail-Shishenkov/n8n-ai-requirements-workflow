@@ -6,10 +6,7 @@
 - Google OAuth credentials;
 - реальные Google resource IDs;
 - webhook IDs;
-- execution history и pinned data;
-- `.n8n` database;
-- raw exports до sanitization.
-
+  
 Public template contract:
 
 ```text
